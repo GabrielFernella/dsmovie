@@ -1,12 +1,24 @@
 import MovieCard from 'components/MovieCard';
 import Pagination from 'components/Pagination';
+import { useEffect, useState } from 'react';
 import api from 'services/api';
+import { MoviePage, Movie } from 'types/movie';
 import './styles.css';
 
 function Listing() {
-  const result = api.get('/movies').then((item) => {
-    console.log(item.data.content);
-  });
+  const [movies, setMovies] = useState<Movie>();
+  const [moviePage, setMoviePage] = useState<MoviePage>();
+
+  async function getAllMovies() {
+    const result = await api.get('/movies').then((item) => {
+      setMoviePage(item.data);
+      console.log(item.data);
+    });
+  }
+
+  useEffect(() => {
+    getAllMovies();
+  }, []);
 
   return (
     <>
