@@ -2,7 +2,7 @@ import MovieCard from 'components/MovieCard';
 import Pagination from 'components/Pagination';
 import { useEffect, useState } from 'react';
 import api from 'services/api';
-import { MoviePage, Movie } from 'types/movie';
+import { MoviePage } from 'types/movie';
 import './styles.css';
 
 function Listing() {
