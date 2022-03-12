@@ -7,6 +7,7 @@ import './styles.css';
 
 function Listing() {
   const [pageNumber, setPageNumber] = useState(0);
+
   const [moviePage, setMoviePage] = useState<MoviePage>({
     content: [],
     last: true,
@@ -26,13 +27,17 @@ function Listing() {
     });
   }
 
+  const handlePageChange = (newPageNumber: number) => {
+    setPageNumber(newPageNumber);
+  };
+
   useEffect(() => {
     getAllMovies();
   }, [pageNumber]);
 
   return (
     <>
-      <Pagination />
+      <Pagination page={moviePage} onChange={handlePageChange} />
 
       <div className="container">
         <div className="row">
