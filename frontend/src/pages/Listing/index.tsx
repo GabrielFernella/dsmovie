@@ -6,11 +6,21 @@ import { MoviePage, Movie } from 'types/movie';
 import './styles.css';
 
 function Listing() {
-  const [movies, setMovies] = useState<Movie>();
-  const [moviePage, setMoviePage] = useState<MoviePage>();
+  const [pageNumber, setPageNumber] = useState(0);
+  const [moviePage, setMoviePage] = useState<MoviePage>({
+    content: [],
+    last: true,
+    totalPages: 0,
+    totalElements: 0,
+    size: 0,
+    number: 0,
+    first: true,
+    numberOfElements: 0,
+    empty: true,
+  });
 
   async function getAllMovies() {
-    const result = await api.get('/movies').then((item) => {
+    await api.get(`/movies?size=12&page=${pageNumber}`).then((item) => {
       setMoviePage(item.data);
       console.log(item.data);
     });
@@ -18,7 +28,7 @@ function Listing() {
 
   useEffect(() => {
     getAllMovies();
-  }, []);
+  }, [pageNumber]);
 
   return (
     <>
@@ -26,21 +36,11 @@ function Listing() {
 
       <div className="container">
         <div className="row">
-          <div className="col-sm-6 col-lg-4 col-c1-3 mb-3">
-            <MovieCard />
-          </div>
-          <div className="col-sm-6 col-lg-4 col-c1-3 mb-3">
-            <MovieCard />
-          </div>
-          <div className="col-sm-6 col-lg-4 col-c1-3 mb-3">
-            <MovieCard />
-          </div>
-          <div className="col-sm-6 col-lg-4 col-c1-3 mb-3">
-            <MovieCard />
-          </div>
-          <div className="col-sm-6 col-lg-4 col-c1-3 mb-3">
-            <MovieCard />
-          </div>
+          {moviePage.content.map((item) => (
+            <div key={item.id} className="col-sm-6 col-lg-4 col-c1-3 mb-3">
+              <MovieCard movie={item} />
+            </div>
+          ))}
         </div>
       </div>
     </>
