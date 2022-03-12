@@ -1,8 +1,13 @@
 import MovieCard from 'components/MovieCard';
 import Pagination from 'components/Pagination';
+import api from 'services/api';
 import './styles.css';
 
 function Listing() {
+  const result = api.get('/movies').then((item) => {
+    console.log(item.data.content);
+  });
+
   return (
     <>
       <Pagination />
